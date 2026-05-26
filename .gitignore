@@ -1,0 +1,8 @@
+*.log
+*.lst
+*.trc
+*.trm
+*.dmp
+.DS_Store
+.idea/
+.vscode/

@@ -1,0 +1,42 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+  workflow_dispatch:
+
+jobs:
+  sanity-check:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Verify SQL files have correct delimiters
+        shell: bash
+        run: |
+          echo "Checking that every PL/SQL block ends with /"
+          fail=0
+          for f in $(find patterns schema scripts -name "*.sql"); do
+            if grep -qE '^(BEGIN|CREATE OR REPLACE|CREATE TYPE|CREATE FUNCTION|CREATE PROCEDURE|CREATE TRIGGER|CREATE PACKAGE|DECLARE)' "$f"; then
+              if ! grep -q '^/' "$f"; then
+                echo "  $f starts a PL/SQL block but has no terminator '/' on its own line"
+                fail=1
+              fi
+            fi
+          done
+          if [ "$fail" = "1" ]; then exit 1; fi
+          echo "All PL/SQL blocks are properly terminated."
+
+      - name: Verify each pattern folder has README + sql/demo.sql
+        shell: bash
+        run: |
+          fail=0
+          for d in patterns/*/; do
+            if [ ! -f "${d}README.md" ]; then echo "  Missing README in $d"; fail=1; fi
+            if [ ! -d "${d}sql" ];      then echo "  Missing sql/ in $d";   fail=1; fi
+            if [ ! -f "${d}sql/demo.sql" ]; then echo "  Missing sql/demo.sql in $d"; fail=1; fi
+          done
+          if [ "$fail" = "1" ]; then exit 1; fi
+          echo "All pattern folders are complete."
