@@ -28,6 +28,7 @@ If you're tuning Oracle batch jobs, this is the playbook I wish I had when I sta
 | 4 | [**Bind variables**](patterns/04-bind-variables/) | Dynamic SQL flooding the shared pool | **2–5x** under concurrency |
 | 5 | [**Pipelined table functions**](patterns/05-pipelined-functions/) | Streaming transformations between stages | **~3x** + lower memory |
 | 6 | [**Materialized views**](patterns/06-materialized-views/) | Expensive aggregations re-run by reports | **10–100x** on read |
+| 7 | [**Parallel DML & query hints**](patterns/07-parallel-dml/) | CPU-bound DML and analytic queries on large tables | **2–10x** on multi-core servers |
 
 Each folder has its own README with the pattern, a runnable demo, and a benchmark script.
 

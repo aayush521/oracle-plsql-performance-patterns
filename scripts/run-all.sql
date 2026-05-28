@@ -24,4 +24,7 @@ PROMPT === Step 6: pattern 05 — pipelined functions ===
 PROMPT === Step 7: pattern 06 — materialized views ===
 @@../patterns/06-materialized-views/sql/demo.sql
 
+PROMPT === Step 8: pattern 07 — parallel DML & query hints ===
+@@../patterns/07-parallel-dml/sql/demo.sql
+
 PROMPT === Done. To clean up: @schema/sql/99-drop-schema.sql ===
